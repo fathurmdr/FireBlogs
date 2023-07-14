@@ -53,7 +53,7 @@ import { QuillEditor } from "@vueup/vue-quill";
 import { storage } from "../firebase/initialApp";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import ImageUploader from "quill-image-uploader";
-import BlotFormatter from "quill-blot-formatter";
+import BlotFormatter from "quill-blot-formatter/dist/BlotFormatter";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { auth, db } from "../firebase/initialApp";
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
