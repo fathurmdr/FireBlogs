@@ -67,10 +67,11 @@ export default {
     Loading,
     QuillEditor,
   },
-  mounted() {
-    localStorage.setItem("@blogTitle", this.$store.state.blogTitle);
-    localStorage.setItem("@blogPhotoURL", this.$store.state.blogPhotoFileURL);
-    localStorage.setItem("@blogHTML", this.$store.state.blogHTML);
+  async mounted() {
+    await this.$store.commit("clearCurrentBlog");
+    localStorage.removeItem("@blogTitle");
+    localStorage.removeItem("@blogPhotoURL");
+    localStorage.removeItem("@blogHTML");
   },
   data() {
     return {

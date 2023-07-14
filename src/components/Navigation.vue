@@ -19,6 +19,7 @@
         </ul>
         <div
           v-if="user"
+          :class="{ 'mobile-user-menu': mobile }"
           @click="toggleProfileMenu"
           class="profile"
           ref="profile"
@@ -296,6 +297,10 @@ header {
           }
         }
       }
+    }
+
+    .mobile-user-menu {
+      margin-right: 40px;
     }
   }
 
