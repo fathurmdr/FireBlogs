@@ -56,6 +56,13 @@ const store = createStore({
     toggleEditPost(state, payload) {
       state.editPost = payload;
     },
+    clearCurrentBlog(state) {
+      state.blogHTML = "Write your blog title here...";
+      state.blogTitle = "";
+      state.blogPhotoName = "";
+      state.blogPhotoFileURL = null;
+      state.blogPhotoPreview = null;
+    },
     setBlogState(state, payload) {
       state.blogTitle = payload.blogTitle;
       state.blogHTML = payload.blogHTML;
