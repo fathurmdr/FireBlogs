@@ -125,7 +125,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} | FireBlog`;
+  if (to.name !== "ViewBlog") {
+    document.title = `${to.meta.title} | FireBlog`;
+  }
   next();
 });
 

@@ -27,9 +27,11 @@ export default {
   name: "ViewBlog",
   computed: {
     currentBlog() {
-      return this.$store.state.blogPosts.find((post) => {
+      const blogData = this.$store.state.blogPosts.find((post) => {
         return post.blogID === this.$route.params.blogid;
       });
+      document.title = blogData.blogTitle;
+      return blogData;
     },
   },
 };
