@@ -13,13 +13,13 @@ export default {
   name: "PostPreview",
   computed: {
     blogTitle() {
-      return this.$store.state.blogTitle;
+      return localStorage.getItem("@blogTitle");
     },
     blogHTML() {
-      return this.$store.state.blogHTML;
+      return localStorage.getItem("@blogHTML");
     },
     blogCoverPhoto() {
-      return this.$store.state.blogPhotoFileURL;
+      return localStorage.getItem("@blogPhotoURL");
     },
   },
 };
