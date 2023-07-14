@@ -8,16 +8,26 @@
           >
           <ul>
             <li>
-              <a href="#"><youTube class="svg-icon" /></a>
+              <a
+                href="https://www.youtube.com/channel/UCBu6ado4innudYQjQA61PKw"
+                target="_blank"
+                ><youTube class="svg-icon"
+              /></a>
             </li>
             <li>
-              <a href="#"><twitter class="svg-icon" /></a>
+              <a href="https://twitter.com/fathur_mdr" target="_blank"
+                ><twitter class="svg-icon"
+              /></a>
             </li>
             <li>
-              <a href="#"><instagram class="svg-icon" /></a>
+              <a href="https://www.instagram.com/fathur_mdr" target="_blank"
+                ><instagram class="svg-icon"
+              /></a>
             </li>
             <li>
-              <a href="#"><linkedin class="svg-icon" /></a>
+              <a href="https://www.linkedin.com/in/fathur208/" target="_blank"
+                ><linkedin class="svg-icon"
+              /></a>
             </li>
           </ul>
         </div>
@@ -35,7 +45,7 @@
         </div>
       </div>
       <div class="right">
-        <p>Copyright 2021 All Rights Reserved</p>
+        <p>Copyright {{ new Date().getFullYear() }} All Rights Reserved</p>
       </div>
     </div>
   </footer>

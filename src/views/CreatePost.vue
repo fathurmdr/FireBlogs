@@ -38,7 +38,10 @@
       </div>
       <div class="blog-actions">
         <button @click="submitBlog">Publish Blog</button>
-        <router-link class="router-button" :to="{ name: 'BlogPreview' }"
+        <router-link
+          class="router-button"
+          :to="{ name: 'BlogPreview' }"
+          target="_blank"
           >Post Preview</router-link
         >
       </div>
@@ -53,7 +56,7 @@ import { QuillEditor } from "@vueup/vue-quill";
 import { storage } from "../firebase/initialApp";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import ImageUploader from "quill-image-uploader";
-import BlotFormatter from "quill-blot-formatter";
+import BlotFormatter from "quill-blot-formatter/dist/BlotFormatter";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { auth, db } from "../firebase/initialApp";
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
@@ -63,6 +66,11 @@ export default {
     BlogCoverPreview,
     Loading,
     QuillEditor,
+  },
+  mounted() {
+    localStorage.setItem("@blogTitle", this.$store.state.blogTitle);
+    localStorage.setItem("@blogPhotoURL", this.$store.state.blogPhotoFileURL);
+    localStorage.setItem("@blogHTML", this.$store.state.blogHTML);
   },
   data() {
     return {
@@ -79,11 +87,18 @@ export default {
     };
   },
   methods: {
-    fileChange() {
+    async fileChange() {
       this.file = this.$refs.blogPhoto.files[0];
       const fileName = this.file.name;
+      const storageRef = ref(
+        storage,
+        `documents/BlogCoverPhotos/${this.$store.state.blogPhotoName}`
+      );
+      await uploadBytes(storageRef, this.file);
+      const downloadURL = await getDownloadURL(storageRef);
       this.$store.commit("fileNameChange", fileName);
-      this.$store.commit("createFileURL", URL.createObjectURL(this.file));
+      this.$store.commit("createFileURL", downloadURL);
+      localStorage.setItem("@blogPhotoURL", downloadURL);
     },
     openPreview() {
       this.$store.commit("openPhotoPreview");
@@ -92,18 +107,11 @@ export default {
       if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
         if (this.file) {
           this.loading = true;
-          const storageRef = ref(
-            storage,
-            `documents/BlogCoverPhotos/${this.$store.state.blogPhotoName}`
-          );
-          await uploadBytes(storageRef, this.file);
-          const downloadURL = await getDownloadURL(storageRef);
-
           const blogPostRef = doc(collection(db, "blogPosts"));
           await setDoc(blogPostRef, {
             blogID: blogPostRef.id,
             blogHTML: this.blogHTML,
-            blogCoverPhoto: downloadURL,
+            blogCoverPhoto: this.blogPhotoURL,
             blogCoverPhotoName: this.blogCoverPhotoName,
             blogTitle: this.blogTitle,
             profileId: this.profileId,
@@ -143,7 +151,11 @@ export default {
       },
       set(payload) {
         this.$store.commit("updateBlogTitle", payload);
+        localStorage.setItem("@blogTitle", payload);
       },
+    },
+    blogPhotoURL() {
+      return this.$store.state.blogPhotoFileURL;
     },
     blogHTML: {
       get() {
@@ -151,6 +163,7 @@ export default {
       },
       set(payload) {
         this.$store.commit("newBlogPost", payload);
+        localStorage.setItem("@blogHTML", payload);
       },
     },
   },
